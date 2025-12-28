@@ -1,6 +1,7 @@
 #include "Algorithms.hpp"
 
 namespace SCO {
+// Chapter 2 - Problem 35
 std::int16_t hamming(char ascii) {
   // p1 p2 d1 p3 d2 d3 d4 p4 d5 d6 d7
   char p1 = getBit(ascii, 0) ^ getBit(ascii, 1) ^ getBit(ascii, 3) ^
@@ -17,4 +18,7 @@ std::int16_t hamming(char ascii) {
                         (getBit(ascii, 5) << 9) | (getBit(ascii, 6) << 10);
   return result;
 }
+
+// Chapter 2 - Problem 36
+
 } // namespace SCO
