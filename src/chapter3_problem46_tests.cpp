@@ -1,50 +1,10 @@
-#include <algorithm>
 #include <print>
-#include <regex>
 
 #include "gtest/gtest.h"
 
-#include "Problems.hpp"
-#include "Utils.hpp"
+#include "chapter3_problem46.hpp"
 
 namespace SCO {
-TEST(SCOTests, Hamming) {
-  struct TestCase {
-    char input;
-    std::int16_t expected;
-  };
-
-  std::vector<TestCase> testCases = {
-      {'A', 1156}, // ASCII 65
-      {'B', 1178}, // ASCII 66
-      {'C', 1181}, // ASCII 67
-      {'D', 1193}, // ASCII 68
-      {'E', 1198}, // ASCII 69
-      {'F', 1200}, // ASCII 70
-      {'G', 1207}, // ASCII 71
-      {'H', 1224}  // ASCII 72
-  };
-
-  for (const auto &testCase : testCases) {
-    std::int16_t result = SCO::hamming(testCase.input);
-    EXPECT_EQ(result, testCase.expected)
-        << "Failed for input: " << testCase.input;
-  }
-}
-
-TEST(SCOTests, Distance) {
-  std::vector<int> code = {0b0000, 0b1111, 0b1010, 0b0101};
-  int codewordLength = 4;
-
-  int result = SCO::distance(code, codewordLength);
-  EXPECT_EQ(result, 2);
-
-  code = {0b000000, 0b111111, 0b000111, 0b111000};
-  codewordLength = 6;
-  result = SCO::distance(code, codewordLength);
-  EXPECT_EQ(result, 3);
-}
-
 class NANDGateArrayTest : public ::testing::Test {
 protected:
   // Helper to create a WireConnection for InputPin -> GateInput
@@ -143,75 +103,5 @@ TEST_F(NANDGateArrayTest, SRLatchFeedback) {
 
   // S_L=1, R_L=0 (Index 2: bits 0, 1) -> Q should be 1
   EXPECT_EQ(results[2].outputs[0], true);
-}
-
-TEST(RegexTest, Regex) {
-  std::regex pattern(R"(\w+|[()])");
-
-  std::string str = "NOT (A AND B) OR C";
-  auto tokens = std::ranges::subrange(
-      std::sregex_iterator(str.begin(), str.end(), pattern),
-      std::sregex_iterator());
-
-  for (const auto &token : tokens) {
-    std::print("Match: {}\n", token.str());
-  }
-}
-
-TEST(IsSameBooleanFunction, ParseBooleanExpression) {
-  std::string expression = "NOT (A AND B) OR C";
-  auto parsedExpressionOpt = SCO::parseBooleanExpression(expression);
-  ASSERT_TRUE(parsedExpressionOpt.has_value());
-
-  auto &parsedExpression = parsedExpressionOpt.value();
-
-  std::string expressionB = "(NOT A OR NOT B) OR C";
-  auto parsedExpressionBOpt = SCO::parseBooleanExpression(expressionB);
-  ASSERT_TRUE(parsedExpressionBOpt.has_value());
-}
-
-TEST(IsSameBooleanFunction, solveBooleanExpression) {
-  std::string expression = "NOT (A AND B) OR C";
-  auto postfixExpressionOpt = SCO::parseBooleanExpression(expression);
-  ASSERT_TRUE(postfixExpressionOpt.has_value());
-  std::vector<std::string> postfixExpression =
-      postfixExpressionOpt->postfixExpressionList;
-
-  std::unordered_map<std::string, bool> variablesValue = {
-      {"A", true}, {"B", false}, {"C", true}};
-
-  auto resultOpt =
-      SCO::solveBooleanExpression(postfixExpression, variablesValue);
-  ASSERT_TRUE(resultOpt.has_value());
-  bool result = resultOpt.value();
-  EXPECT_EQ(result, true);
-
-  variablesValue = {{"A", true}, {"B", true}, {"C", false}};
-  resultOpt = SCO::solveBooleanExpression(postfixExpression, variablesValue);
-  ASSERT_TRUE(resultOpt.has_value());
-  result = resultOpt.value();
-  EXPECT_EQ(result, false);
-
-  std::string exprB = "(NOT A OR NOT B) OR C";
-  auto postfixExpressionBOpt = SCO::parseBooleanExpression(exprB);
-  ASSERT_TRUE(postfixExpressionBOpt.has_value());
-  std::vector<std::string> postfixExpressionB =
-      postfixExpressionBOpt->postfixExpressionList;
-  resultOpt = SCO::solveBooleanExpression(postfixExpressionB, variablesValue);
-  ASSERT_TRUE(resultOpt.has_value());
-  result = resultOpt.value();
-  EXPECT_EQ(result, false);
-}
-
-TEST(IsSameBooleanFunction, IsSameBooleanFunction) {
-  std::string exprA = "NOT (A AND B) OR C";
-  std::string exprB = "(NOT A OR NOT B) OR C";
-
-  bool result = SCO::isSameBooleanFunction(exprA, exprB);
-  EXPECT_TRUE(result);
-
-  exprB = "A AND (B OR C)";
-  result = SCO::isSameBooleanFunction(exprA, exprB);
-  EXPECT_FALSE(result);
 }
 } // namespace SCO
