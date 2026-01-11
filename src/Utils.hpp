@@ -23,7 +23,3 @@ struct std::formatter<R> : std::formatter<std::string> {
     return std::formatter<std::string>::format(s, ctx);
   }
 };
-
-namespace Utils {
-std::vector<int> randomVector(size_t size, int min = 0, int max = 1000000);
-}

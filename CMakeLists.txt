@@ -9,14 +9,13 @@ set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 
 enable_testing()
 
-### Fetch and compile GoogleTest
+### Fetch GoogleTest
 include(FetchContent)
 FetchContent_Declare(
     GoogleTestSource
     GIT_REPOSITORY https://github.com/google/googletest.git
     GIT_TAG v1.17.0
 )
-# This compiles and makes the GoogleTest targets available
 FetchContent_MakeAvailable(GoogleTestSource)
 
 ### Tests
