@@ -129,6 +129,13 @@ TEST_F(DirectMappedCacheTest, SameIndexDifferentTagCausesMiss) {
   // Binary: 001010000
   EXPECT_FALSE(
       cache.access(0x0090).hit); // Should miss again (same index as 0x0010)
+
+  // Alternate access should not hit
+  EXPECT_FALSE(cache.access(0x0010).hit);
+  EXPECT_FALSE(cache.access(0x0090).hit);
+  EXPECT_FALSE(cache.access(0x0010).hit);
+  EXPECT_FALSE(cache.access(0x0090).hit);
+  EXPECT_FALSE(cache.access(0x0010).hit);
 }
 
 TEST_F(DirectMappedCacheTest, DifferentIndexesCoexist) {
