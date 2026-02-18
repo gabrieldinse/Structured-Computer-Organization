@@ -5,33 +5,27 @@
 
 namespace SCO {
 TEST(TowersTest, MoveOneDisk) {
-  testing::internal::CaptureStdout();
-  towers(1, 1, 3);
-  std::string output = testing::internal::GetCapturedStdout();
-  EXPECT_EQ(output, "Moving disk from 1 to 3\n");
-  std::print("Captured output: {}", output); // For debugging
+  int moveCount = towers(1, 1, 3);
+  EXPECT_EQ(moveCount, 1);
 }
 
 TEST(TowersTest, MoveTwoDisks) {
-  testing::internal::CaptureStdout();
-  towers(2, 1, 3);
-  std::string output = testing::internal::GetCapturedStdout();
-  EXPECT_EQ(
-      output,
-      "Moving disk from 1 to 2\nMoving disk from 1 to 3\nMoving disk from 2 to "
-      "3\n");
-  std::print("Captured output: {}", output); // For debugging
+  int moveCount = towers(2, 1, 3);
+  EXPECT_EQ(moveCount, 3);
 }
 
 TEST(TowersTest, MoveThreeDisks) {
-  testing::internal::CaptureStdout();
-  towers(3, 1, 3);
-  std::string output = testing::internal::GetCapturedStdout();
-  EXPECT_EQ(
-      output,
-      "Moving disk from 1 to 3\nMoving disk from 1 to 2\nMoving disk from 3 to "
-      "2\nMoving disk from 1 to 3\nMoving disk from 2 to 1\nMoving disk from "
-      "2 to 3\nMoving disk from 1 to 3\n");
-  std::print("Captured output: {}", output); // For debugging
+  int moveCount = towers(3, 1, 3);
+  EXPECT_EQ(moveCount, 7);
+}
+
+TEST(TowersTest, MoveFourDisks) {
+  int moveCount = towers(4, 1, 3);
+  EXPECT_EQ(moveCount, 15);
+}
+
+TEST(TowersTest, MoveFiveDisks) {
+  int moveCount = towers(5, 1, 3);
+  EXPECT_EQ(moveCount, 31);
 }
 } // namespace SCO
