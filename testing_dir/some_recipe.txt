@@ -1,0 +1,4 @@
+- Add water
+- Add flour
+- Add egg
+- Bake it
