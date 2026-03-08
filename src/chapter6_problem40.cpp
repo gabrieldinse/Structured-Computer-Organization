@@ -1,4 +1,5 @@
 
+#ifdef __linux__
 #include "gtest/gtest.h"
 
 #include <print>
@@ -19,4 +20,5 @@ TEST(ListDir, UNIX) {
                stat.st_size);
   }
 }
+#endif
 } // namespace SCO
