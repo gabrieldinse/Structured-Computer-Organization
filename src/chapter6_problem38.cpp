@@ -24,6 +24,7 @@ AccessResult LRUStrategy::load(int pageIndex, PagedVM &pagedVM) {
     //            pages.back());
     result.evict = true;
     int evictedPageIndex = pages.back();
+    freeMap.erase(evictedPageIndex);
     pages.pop_back();
     pages.push_front(pageIndex);
     freeMap[pageIndex] = pages.begin();
@@ -51,7 +52,9 @@ AccessResult FIFOStrategy::load(int pageIndex, PagedVM &pagedVM) {
     result.evict = true;
     int evictedPageIndex = pages.front();
     pages.pop();
+    pages.push(pageIndex);
     pagedVM.pages[evictedPageIndex].valid = false;
+    pagedVM.pages[pageIndex].valid = true;
   }
 
   return result;
