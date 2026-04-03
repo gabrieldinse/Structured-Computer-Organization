@@ -7,6 +7,10 @@ mkdir -p build
 cd build
 cmake ..
 if cmake --build . ; then
-	ctest --verbose
+	if [ -n "$1" ]; then
+		ctest --verbose -R "$1"
+	else
+		ctest --verbose
+	fi
 fi
 

@@ -1,4 +1,5 @@
 #include <bit>
+#include <print>
 
 #include "appendixB_problem9.hpp"
 
@@ -21,6 +22,16 @@ float sum(float numA, float numB) {
   IEEE754Float rawNumA = unpack(numA);
   IEEE754Float rawNumB = unpack(numB);
   IEEE754Float result;
+
+  std::println(
+      "================================================================");
+  std::println("  Adding {} and {}\n", numA, numB);
+  std::println(
+      "    numA: value={}, sign={:b}, exponent={:08b}, significand={:023b}",
+      numA, rawNumA.sign, rawNumA.exponent, rawNumA.significand);
+  std::println(
+      "    numB: value={}, sign={:b}, exponent={:08b}, significand={:023b}",
+      numB, rawNumB.sign, rawNumB.exponent, rawNumB.significand);
 
   if (std::bit_cast<std::uint32_t>(numA) == 0x0) {
     return numB;
@@ -82,6 +93,10 @@ float sum(float numA, float numB) {
 
   // 5. Pack back into IEEE format
   float packed = pack(result);
+
+  std::println(
+      "    Result: value={}, sign={:b}, exponent={:08b}, significand={:023b}",
+      packed, result.sign, result.exponent, result.significand);
 
   // 7. Check for overflow/underflow
   return packed;
